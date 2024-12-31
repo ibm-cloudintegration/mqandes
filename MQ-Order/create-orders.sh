@@ -101,7 +101,7 @@ printf " This will take a liitle time ..."
       spinner_pid=$!  
 cd mq-app
 ./deploy.sh $NAMESPACE > /dev/null 2>&1
-echo"${textreset}"
+echo "${textreset}"
 # Kill the spinner process
   kill $spinner_pid
 cd ..
