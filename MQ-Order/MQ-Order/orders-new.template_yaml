@@ -1,0 +1,43 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: order-new
+  namespace: {{NAMESPACE}}
+data:
+  mq.mqsc: |-
+    define ql(PAYMENT.REQ)
+    define ql(PAYMENT.RESP)
+    ALTER QMGR CHLAUTH(DISABLED) CONNAUTH(' ')
+    REFRESH SECURITY TYPE(CONNAUTH)
+---
+apiVersion: mq.ibm.com/v1beta1
+kind: QueueManager
+metadata:
+  name: {{NAMESPACE}}-orders-new
+  namespace: {{NAMESPACE}}
+spec:
+  version: {{MQ_VERSION}}
+  license:
+    accept: true
+    license: {{MQ_LICENSE}}
+    use: "NonProduction"
+  web:
+    enabled: true
+  queueManager:
+    resources:
+      limits:
+        cpu: 1000m
+      requests:
+        cpu: 100m
+    mqsc:
+      - configMap:
+          name: order-new
+          items:
+            - mq.mqsc
+  template:
+    pod:
+      containers:
+        - env:
+            - name: MQSNOAUT
+              value: 'yes'
+          name: qmgr
