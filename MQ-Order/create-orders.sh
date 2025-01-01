@@ -116,3 +116,14 @@ oc apply -f mq-sink.yaml  -n cp4i-eventstreams
 
 ##rm mq-sink.yaml
 
+echo "-------------------------------------------"
+echo "   Create your new order source connector  "
+echo "-------------------------------------------"
+#
+TOPIC=${NAMESPACE^^}
+echo "Topic $TOPIC"
+cat mq-source.template_yaml |
+  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  > mq-source.yaml
+  
+##oc apply -f mq-source.yaml  -n cp4i-eventstreams
+##rm mq-sink.yaml 
