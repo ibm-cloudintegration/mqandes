@@ -1,7 +1,7 @@
 apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaConnector
 metadata:
-  name: {{NAMESPACE}}mq-connector
+  name: {{NAMESPACE}}-mq-order-connector
   namespace: cp4i-eventstreams
   labels:
     eventstreams.ibm.com/cluster: kafka-connect-cluster
