@@ -134,7 +134,7 @@ if [ $NAMESPACE == "cp4i-mq" ]
    then
     TOPIC="MYDEMO.ORDER.PAYMENT"
     else 
-    TOPIC="${NAMESPACE}.ORDER.PAYMENT"
+    TOPIC="${NAMESPACE^^}.ORDER.PAYMENT"
   fi
 echo "Topic $TOPIC"
 cat mq-source.template_yaml |
