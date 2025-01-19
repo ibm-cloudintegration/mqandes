@@ -13,7 +13,7 @@ data:
 apiVersion: mq.ibm.com/v1beta1
 kind: QueueManager
 metadata:
-  name: {{NAMESPACE}}-orders-new
+  name: {{NAMESPACE}}-{{QMName}}
   namespace: {{NAMESPACE}}
 spec:
   version: {{MQ_VERSION}}
@@ -24,6 +24,7 @@ spec:
   web:
     enabled: true
   queueManager:
+    name: {{QMName}}
     resources:
       limits:
         cpu: 1000m

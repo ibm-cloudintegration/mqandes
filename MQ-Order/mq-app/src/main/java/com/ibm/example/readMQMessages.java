@@ -24,9 +24,9 @@ public class readMQMessages
             {
                 mqConnFactory = new MQConnectionFactory();
                 mqConnFactory.setTransportType(WMQConstants.WMQ_CM_CLIENT);
-                mqConnFactory.setQueueManager("{{QMName}}");
+                mqConnFactory.setQueueManager("ordersnew1");
                 mqConnFactory.setChannel("SYSTEM.DEF.SVRCONN");
-                mqConnFactory.setHostName("{{NAMESPACE}}-{{QMName}}-ibm-mq.{{NAMESPACE}}.svc");
+                mqConnFactory.setHostName("student1-ordersnew1-ibm-mq.student1.svc");
                 mqConnFactory.setPort(1414);
                 mqConnFactory.setAppName("PaymentGateway");
                 queue = new MQQueue("PAYMENT.REQ");

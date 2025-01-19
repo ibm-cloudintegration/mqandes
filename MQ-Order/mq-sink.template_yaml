@@ -11,8 +11,8 @@ spec:
         topics: ORDERS.NEW
         mq.queue: PAYMENT.REQ
 
-        mq.queue.manager: {{NAMESPACE}}ordersnew
-        mq.connection.name.list: {{NAMESPACE}}-orders-new-ibm-mq.{{NAMESPACE}}.svc(1414)
+        mq.queue.manager: {{QMName}}
+        mq.connection.name.list: {{NAMESPACE}}-{{QMName}}-ibm-mq.{{NAMESPACE}}.svc(1414)
         mq.channel.name: SYSTEM.DEF.SVRCONN
 
         mq.message.body.jms: true

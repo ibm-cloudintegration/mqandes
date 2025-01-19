@@ -16,9 +16,20 @@ if [ $# -eq 0 ]
  echo " Missing your Namespace"
  exit
 fi 
+#
+# Save the NameSpace passed in and create the QMgr name. 
+# If this is demo for cp4i-mq NS set the QMgr name.
+#
 if [ $# -eq 1 ]
   then
  export NAMESPACE=$1
+  if [ $NAMESPACE == "cp4i-mq" ]
+   then
+    export QMName="ordersnew01"
+    else 
+    number=$(echo "$NAMESPACE" | grep -o '[0-9.]*')
+    export QMName="ordersnew$number"
+  fi
  else 
  echo " To many arguments passed in"
  exit
@@ -66,10 +77,10 @@ echo "   Create your new order QMgr  "
 echo "-------------------------------------------"
 #
 cat orders-new.template_yaml |
-  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{MQ_LICENSE}}#$MQ_LICENSE#g" -e "s#{{MQ_VERSION}}#$MQ_VERSION#g"  > orders-new.yaml
+  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{MQ_LICENSE}}#$MQ_LICENSE#g" -e "s#{{MQ_VERSION}}#$MQ_VERSION#g" -e "s#{{QMName}}#$QMName#g" > orders-new.yaml
        
 oc apply -f orders-new.yaml  -n $NAMESPACE
-printf "[INFO] Install the ${bold}MQ instance${normal}"
+printf "[INFO] Install the ${bold}MQ instance ${normal}"
 #
 # Run the spinner in the background
       spinner &
@@ -77,7 +88,7 @@ printf "[INFO] Install the ${bold}MQ instance${normal}"
 #             
     while true;
         do
-           STATUS=`oc get QueueManager -n $NAMESPACE | grep orders-new 2>&1`
+           STATUS=`oc get QueueManager -n $NAMESPACE | grep ordersnew 2>&1`
            echo $STATUS | grep Running > /dev/null 2>&1
         if [ $? = 0 ]
          then
@@ -100,7 +111,7 @@ printf " This will take a liitle time ..."
       spinner &
       spinner_pid=$!  
 cd mq-app
-./deploy.sh $NAMESPACE > /dev/null 2>&1
+./deploy.sh $NAMESPACE $QMName > /dev/null 2>&1
 echo "${textreset}"
 # Kill the spinner process
   kill $spinner_pid
@@ -110,20 +121,24 @@ echo "   Create your new order sink connector  "
 echo "-------------------------------------------"
 #
 cat mq-sink.template_yaml |
-  sed "s#{{NAMESPACE}}#$NAMESPACE#g;" > mq-sink.yaml
+  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g;" -e "s#{{QMName}}#$QMName#g" > mq-sink.yaml
           
-oc apply -f mq-sink.yaml  -n cp4i-eventstreams
-
+##oc apply -f mq-sink.yaml  -n cp4i-eventstreams
 ##rm mq-sink.yaml
 
 echo "-------------------------------------------"
 echo "   Create your new order source connector  "
 echo "-------------------------------------------"
 #
-TOPIC=${NAMESPACE^^}
+if [ $NAMESPACE == "cp4i-mq" ]
+   then
+    TOPIC="MYDEMO.ORDER.PAYMENT"
+    else 
+    TOPIC="${NAMESPACE}.ORDER.PAYMENT"
+  fi
 echo "Topic $TOPIC"
 cat mq-source.template_yaml |
-  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  > mq-source.yaml
+  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  -e "s#{{QMName}}#$QMName#g" > mq-source.yaml
   
 ##oc apply -f mq-source.yaml  -n cp4i-eventstreams
 ##rm mq-sink.yaml 
