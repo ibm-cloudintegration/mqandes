@@ -10,7 +10,7 @@ spec:
   tasksMax: 1
   config:
     # the Kafka topic to produce to
-    topic: {{TOPIC}}.ORDER.PAYMENT
+    topic: {{TOPIC}}
     # the MQ queue to get messages from
     mq.queue: TO.KAFKA
     # connection details for the queue manager
