@@ -123,7 +123,7 @@ echo "-------------------------------------------"
 cat mq-sink.template_yaml |
   sed -e "s#{{NAMESPACE}}#$NAMESPACE#g;" -e "s#{{QMName}}#$QMName#g" > mq-sink.yaml
           
-##oc apply -f mq-sink.yaml  -n cp4i-eventstreams
+oc apply -f mq-sink.yaml  -n cp4i-eventstreams
 ##rm mq-sink.yaml
 
 echo "-------------------------------------------"
@@ -140,5 +140,5 @@ echo "Topic $TOPIC"
 cat mq-source.template_yaml |
   sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  -e "s#{{QMName}}#$QMName#g" > mq-source.yaml
   
-##oc apply -f mq-source.yaml  -n cp4i-eventstreams
+oc apply -f mq-source.yaml  -n cp4i-eventstreams
 ##rm mq-sink.yaml 
