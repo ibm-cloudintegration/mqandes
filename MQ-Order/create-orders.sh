@@ -139,6 +139,8 @@ if [ $NAMESPACE == "cp4i-mq" ]
 echo "Topic $TOPIC"
 cat mq-source.template_yaml |
   sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  -e "s#{{QMName}}#$QMName#g" > mq-source.yaml
-  
-oc apply -f mq-source.yaml  -n cp4i-eventstreams
+echo "Source yaml is created.  Once the stream Queue is created run the following:"
+echo "This is in the lab guide"
+echo "oc apply -f mq-source.yaml  -n cp4i-eventstreams"
+##oc apply -f mq-source.yaml  -n cp4i-eventstreams
 ##rm mq-sink.yaml 
