@@ -5,7 +5,7 @@ COPY pom.xml pom.xml
 
 RUN mvn clean install package
 
-FROM openjdk:22-slim-buster
+FROM openjdk:22-jdk-slim-buster
 
 WORKDIR /app
 
