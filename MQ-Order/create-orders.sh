@@ -136,11 +136,15 @@ if [ $NAMESPACE == "cp4i-mq" ]
     else 
     TOPIC="${NAMESPACE^^}.ORDER.PAYMENT"
   fi
-echo "Topic $TOPIC"
+echo "Your topic name will be - $TOPIC"
 cat mq-source.template_yaml |
   sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  -e "s#{{QMName}}#$QMName#g" > mq-source.yaml
-echo "Source yaml is created.  Once the stream Queue is created run the following:"
-echo "This is in the lab guide"
+echo ""
+echo "*************************************************************************************"
+echo "Source yaml is created.  "
+echo "Once the stream Queue is created run the following:"
+echo "${bold}This is in the lab guide${textreset}"
 echo "oc apply -f mq-source.yaml  -n cp4i-eventstreams"
+echo "*************************************************************************************"
 ##oc apply -f mq-source.yaml  -n cp4i-eventstreams
 ##rm mq-sink.yaml 
