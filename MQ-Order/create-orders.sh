@@ -77,14 +77,13 @@ echo "   Create your new order QMgr  "
 echo "-------------------------------------------"
 #
 cat orders-new.template_yaml |
-  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{MQ_LICENSE}}#$MQ_LICENSE#g" -e "s#{{MQ_VERSION}}#$MQ_VERSION#g" -e "s#{{QMName}}#$QMName#g" > orders-new.yaml
-       
-oc apply -f orders-new.yaml  -n $NAMESPACE
+  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{MQ_LICENSE}}#$MQ_LICENSE#g" -e "s#{{QMInstance}}#$QMInstance#g" -e "s#{{MQ_VERSION}}#$MQ_VERSION#g" -e "s#{{QMName}}#$QMName#g" > orders-new.yaml
+oc apply -f orders-new.yaml  -n $NAMESPACE > /dev/null 2>&1
 printf "[INFO] Install the ${bold}MQ instance ${normal}"
 #
 # Run the spinner in the background
       spinner &
-      spinner_pid=$!       
+      spinner_pid=$!          
 #             
     while true;
         do
@@ -105,9 +104,16 @@ printf "[INFO] Install the ${bold}MQ instance ${normal}"
 echo "-------------------------------------------"
 echo "   Create your payment app and deploy      "
 echo "-------------------------------------------"
-printf " This will take a liitle time ..." 
+oc get deploy paymentgateway -n $NAMESPACE | grep 1/1 > /dev/null 2>&1
+if [ $? = 0 ]
+   then 
+     echo "${green}[INFO]${textreset}  ${bold}Payment App${normal} already installed"
+     else
+     {
+     echo " This will take a liitle time ..." 
 #
 # Run the spinner in the background
+#
       spinner &
       spinner_pid=$!  
 cd mq-app
@@ -115,7 +121,9 @@ cd mq-app
 echo "${textreset}"
 # Kill the spinner process
   kill $spinner_pid
-cd ..
+  }
+  cd ..
+  fi
 echo "-------------------------------------------"
 echo "   Create your new order sink connector  "
 echo "-------------------------------------------"
@@ -141,7 +149,7 @@ cat mq-source.template_yaml |
   sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  -e "s#{{QMName}}#$QMName#g" > mq-source.yaml
 echo ""
 echo "*************************************************************************************"
-echo "Source yaml is created.  "
+echo "${bold}${green}Source yaml is created.${textreset} "
 echo "Once the stream Queue is created run the following:"
 echo "${bold}This is in the lab guide${textreset}"
 echo "oc apply -f mq-source.yaml  -n cp4i-eventstreams"
