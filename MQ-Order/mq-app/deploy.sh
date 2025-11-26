@@ -11,7 +11,7 @@ echo "***********************************"
 pwd
 ##src/main/java/com/ibm/example
   
-cat src/main/java/com/ibm/example/readMQMessages.template | sed -e "s#{{NAMESPACE}}#$namespace#g;" -e "s#{{QMName}}#$QMname#g;" > src/main/java/com/ibm/example/readMQMessages.java
+cat src/main/java/com/ibm/example/readMQMessages.template | sed -e "s#{{QMInstance}}#$namespace#g;" -e "s#{{NAMESPACE}}#$namespace#g;" -e "s#{{QMName}}#$QMname#g;" > src/main/java/com/ibm/example/readMQMessages.java
 
 echo "Deploying to $namespace"
 
