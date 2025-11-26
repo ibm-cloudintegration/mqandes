@@ -119,7 +119,7 @@ if [ $? = 0 ]
       spinner &
       spinner_pid=$!  
 cd mq-app
-./deploy.sh $NAMESPACE $QMInstance > /dev/null 2>&1
+./deploy.sh $NAMESPACE $QMInstance $QMName > /dev/null 2>&1
 echo "${textreset}"
 # Kill the spinner process
   kill $spinner_pid

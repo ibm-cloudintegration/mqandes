@@ -1,7 +1,8 @@
 #!/bin/bash
-set -x
+
 namespace=${1:-"cp4i-mq"}
-QMname=$2
+QMInstance=$2
+QMname=$3
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 cd $SCRIPT_DIR
@@ -11,7 +12,7 @@ echo "***********************************"
 pwd
 ##src/main/java/com/ibm/example
   
-cat src/main/java/com/ibm/example/readMQMessages.template | sed -e "s#{{QMInstance}}#$namespace#g;" -e "s#{{NAMESPACE}}#$namespace#g;" -e "s#{{QMName}}#$QMname#g;" > src/main/java/com/ibm/example/readMQMessages.java
+cat src/main/java/com/ibm/example/readMQMessages.template | sed -e "s#{{QMInstance}}#$QMInstance#g;" -e "s#{{NAMESPACE}}#$namespace#g;" -e "s#{{QMName}}#$QMName#g;" > src/main/java/com/ibm/example/readMQMessages.java
 
 echo "Deploying to $namespace"
 
