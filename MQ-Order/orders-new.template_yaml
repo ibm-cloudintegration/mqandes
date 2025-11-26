@@ -7,6 +7,7 @@ data:
   mq.mqsc: |-
     define ql(PAYMENT.REQ)
     define ql(PAYMENT.RESP)
+    define ql(TO.KAFKA)
     ALTER QMGR CHLAUTH(DISABLED) CONNAUTH(' ')
     REFRESH SECURITY TYPE(CONNAUTH)
 ---

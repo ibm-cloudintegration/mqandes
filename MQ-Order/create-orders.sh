@@ -112,7 +112,7 @@ if [ $? = 0 ]
      echo "${green}[INFO]${textreset}  ${bold}Payment App${normal} already installed"
      else
      {
-     echo " This will take a liitle time ..." 
+     printf " This will take a little time ..." 
 #
 # Run the spinner in the background
 #
@@ -150,12 +150,6 @@ if [ $NAMESPACE == "cp4i-mq" ]
 echo "Your topic name will be - $TOPIC"
 cat mq-source.template_yaml |
   sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  -e "s#{{QMName}}#$QMName#g" -e "s#{{QMInstance}}#$QMInstance#g" > mq-source.yaml
-echo ""
-echo "*************************************************************************************"
-echo "${bold}${green}Source yaml is created.${textreset} "
-echo "Once the stream Queue is created run the following:"
-echo "${bold}This is in the lab guide${textreset}"
-echo "oc apply -f mq-source.yaml  -n cp4i-eventstreams"
-echo "*************************************************************************************"
-##oc apply -f mq-source.yaml  -n cp4i-eventstreams
+
+oc apply -f mq-source.yaml  -n cp4i-eventstreams
 ##rm mq-sink.yaml 
