@@ -12,7 +12,7 @@ spec:
         mq.queue: PAYMENT.REQ
 
         mq.queue.manager: {{QMName}}
-        mq.connection.name.list: {{NAMESPACE}}-{{QMName}}-ibm-mq.{{NAMESPACE}}.svc(1414)
+        mq.connection.name.list: {{QMInstance}}-ibm-mq.{{NAMESPACE}}.svc(1414)
         mq.channel.name: SYSTEM.DEF.SVRCONN
 
         mq.message.body.jms: true

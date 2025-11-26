@@ -15,7 +15,7 @@ spec:
     mq.queue: TO.KAFKA
     # connection details for the queue manager
     mq.queue.manager: {{QMName}}
-    mq.connection.name.list: {{NAMESPACE}}-{{QMName}}-ibm-mq.{{NAMESPACE}}.svc(1414)
+    mq.connection.name.list: {{QMInstance}}-ibm-mq.{{NAMESPACE}}.svc(1414)
     mq.channel.name: SYSTEM.DEF.SVRCONN
     # format of the messages to transfer
     mq.message.body.jms: true

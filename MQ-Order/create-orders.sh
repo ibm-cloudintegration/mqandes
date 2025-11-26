@@ -117,19 +117,20 @@ if [ $? = 0 ]
       spinner &
       spinner_pid=$!  
 cd mq-app
-./deploy.sh $NAMESPACE $QMName > /dev/null 2>&1
+./deploy.sh $NAMESPACE $QMInstance > /dev/null 2>&1
 echo "${textreset}"
 # Kill the spinner process
   kill $spinner_pid
-  }
   cd ..
+  }
   fi
+  
 echo "-------------------------------------------"
 echo "   Create your new order sink connector  "
 echo "-------------------------------------------"
 #
 cat mq-sink.template_yaml |
-  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g;" -e "s#{{QMName}}#$QMName#g" > mq-sink.yaml
+  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g;" -e "s#{{QMName}}#$QMName#g" -e "s#{{QMInstance}}#$QMInstance#g" > mq-sink.yaml
           
 oc apply -f mq-sink.yaml  -n cp4i-eventstreams
 ##rm mq-sink.yaml
@@ -146,7 +147,7 @@ if [ $NAMESPACE == "cp4i-mq" ]
   fi
 echo "Your topic name will be - $TOPIC"
 cat mq-source.template_yaml |
-  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  -e "s#{{QMName}}#$QMName#g" > mq-source.yaml
+  sed -e "s#{{NAMESPACE}}#$NAMESPACE#g" -e "s#{{TOPIC}}#$TOPIC#g"  -e "s#{{QMName}}#$QMName#g" -e "s#{{QMInstance}}#$QMInstance#g" > mq-source.yaml
 echo ""
 echo "*************************************************************************************"
 echo "${bold}${green}Source yaml is created.${textreset} "
