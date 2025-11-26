@@ -13,7 +13,7 @@ data:
 apiVersion: mq.ibm.com/v1beta1
 kind: QueueManager
 metadata:
-  name: {{NAMESPACE}}-{{QMName}}
+  name: {{QMInstance}}
   namespace: {{NAMESPACE}}
 spec:
   version: {{MQ_VERSION}}
