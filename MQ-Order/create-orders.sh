@@ -26,9 +26,11 @@ if [ $# -eq 1 ]
   if [ $NAMESPACE == "cp4i-mq" ]
    then
     export QMName="ordersnew01"
+    export QMInstance=$QMName
     else 
     number=$(echo "$NAMESPACE" | grep -o '[0-9.]*')
     export QMName="ordersnew$number"
+    export QMInstance=$NAMESPACE"-"$QMName
   fi
  else 
  echo " To many arguments passed in"
@@ -117,7 +119,7 @@ if [ $? = 0 ]
       spinner &
       spinner_pid=$!  
 cd mq-app
-./deploy.sh $NAMESPACE $QMInstance > /dev/null 2>&1
+./deploy.sh $NAMESPACE $QMInstance $QMName > /dev/null 2>&1
 echo "${textreset}"
 # Kill the spinner process
   kill $spinner_pid
